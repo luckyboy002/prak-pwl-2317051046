@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Matakuliah extends Model
+class MataKuliah extends Model
 {
     use HasFactory;
 
     protected $table = 'mata_kuliah';
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
-    public $incrementing = false;
+    public $incrementing = false; // Karena pakai UUID
     protected $keyType = 'string';
 
     protected static function boot()
@@ -21,14 +21,7 @@ class Matakuliah extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            if (empty($model->{$model->getKeyName()})) {
-                $model->{$model->getKeyName()} = (string) Str::uuid();
-            }
+            $model->id = Str::uuid()->toString();
         });
-    }
-
-    public function getAllMK()
-    {
-        return $this->all();
     }
 }
