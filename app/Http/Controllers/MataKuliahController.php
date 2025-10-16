@@ -37,4 +37,30 @@ class MataKuliahController extends Controller
 
         return redirect('/matakuliah')->with('success', 'Data mata kuliah berhasil ditambahkan!');
     }
+
+    public function edit($id)
+{
+    $mk = MataKuliah::findOrFail($id);
+    return view('edit_mk', compact('mk'));
+}
+
+public function update(Request $request, $id)
+{
+    $mk = MataKuliah::findOrFail($id);
+    $mk->update([
+        'nama_mk' => $request->nama_mk,
+        'sks' => $request->sks,
+    ]);
+
+    return redirect('/matakuliah')->with('success', 'Data berhasil diperbarui!');
+}
+
+public function destroy($id)
+{
+    $mk = MataKuliah::findOrFail($id);
+    $mk->delete();
+
+    return redirect('/matakuliah')->with('success', 'Data berhasil dihapus!');
+}
+
 }
